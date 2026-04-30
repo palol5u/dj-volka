@@ -31,6 +31,19 @@ body{background:var(--black);color:var(--white);font-family:'Barlow Condensed',s
 .vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
   background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.7) 100%);}
 
+/* ── PRELOADER HACKER ── */
+#hacker-loader {
+  position: fixed; inset: 0; background: var(--black); z-index: 9999999;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 5%;
+  font-family: 'Share Tech Mono', monospace; color: var(--accent);
+  transition: opacity 0.6s ease, visibility 0.6s;
+}
+#hacker-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+#term-container { margin-bottom: 10vh; text-shadow: 0 0 10px rgba(191,255,0,0.6); }
+.term-line { font-size: clamp(1rem, 2.5vw, 1.8rem); line-height: 1.5; letter-spacing: 0.1em; }
+.term-cursor { display: inline-block; width: 12px; height: 1em; background: var(--accent); vertical-align: bottom; margin-left: 5px; animation: blink 0.8s infinite; box-shadow: 0 0 10px var(--accent); }
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
 /* ── PROGRESS BAR ── */
 #pb{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0%;z-index:9999;box-shadow:0 0 10px var(--accent);}
 
@@ -237,7 +250,6 @@ section{position:relative;min-height:100vh;padding:120px 5% 80px;
   position:relative;background:#080808;}
 .video-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,var(--accent),var(--a3),var(--a2));z-index:2;pointer-events:none;}
-/* L'image est coupée propre avec un petit liseré jaune */
 .video-wrap video{width:100%;height:auto;display:block;border-bottom:1px solid rgba(191,255,0,.15);}
 
 /* ══ GALLERY ══ */
@@ -417,6 +429,12 @@ body.rave-mode #rave-overlay{display:flex;}
 </head>
 <body>
 
+<!-- ── ECRAN DE CHARGEMENT HACKER ── -->
+<div id="hacker-loader">
+  <div id="term-container"></div>
+  <div class="term-cursor"></div>
+</div>
+
 <canvas id="particle-canvas"></canvas>
 <div class="global-grid"></div>
 <div class="grain"></div>
@@ -513,7 +531,6 @@ body.rave-mode #rave-overlay{display:flex;}
     <div class="s-label reveal">Live Action</div>
     <h2 class="s-title reveal">RAW <span>FOOTAGE</span></h2>
     <div class="video-wrap reveal">
-      <!-- Ajout des attributs autoplay, loop, muted, playsinline pour une lecture automatique -->
       <video autoplay loop muted playsinline preload="metadata">
         <source src="Toro.mp4" type="video/mp4">
         Votre navigateur ne supporte pas la balise vidéo.
@@ -646,7 +663,7 @@ document.querySelectorAll('.dot, .nav-links a').forEach(el => {
   });
 });
 
-/* ── SCROLL REVEAL (PAS pour la galerie) ── */
+/* ── SCROLL REVEAL ── */
 const revObs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -758,7 +775,7 @@ const mqF=document.createDocumentFragment();
 });
 mqEl.appendChild(mqF);
 
-/* ── GALLERY — SANS classe reveal, images visibles immédiatement ── */
+/* ── GALLERY ── */
 const photos = [4,5,6,7,8,9,10];
 const galEl = document.getElementById('gal');
 const galF = document.createDocumentFragment();
@@ -781,7 +798,7 @@ photos.forEach((n, idx) => {
 });
 galEl.appendChild(galF);
 
-/* ── LIGHTBOX avec navigation ── */
+/* ── LIGHTBOX ── */
 const lb = document.getElementById('lb');
 const lbImg = document.getElementById('lbImg');
 
@@ -809,8 +826,55 @@ document.addEventListener('keydown', e => {
 });
 
 /* ══════════════════════════════
+   HACKER PRELOADER
+══════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.style.overflow = 'hidden'; // Bloque le scroll pendant le chargement
+  
+  const lines = [
+    "BOOTING VOLKA_OS v2.0...",
+    "INITIALIZING KICK DRUMS: [OK]",
+    "LOADING ACID BASSLINES: [OK]",
+    "ACCESS GRANTED."
+  ];
+  
+  const termContainer = document.getElementById('term-container');
+  let currentLine = 0;
+  
+  function typeLine() {
+    if(currentLine >= lines.length) {
+      setTimeout(() => {
+        document.getElementById('hacker-loader').classList.add('hidden');
+        document.body.style.overflow = ''; // Réactive le scroll
+      }, 700);
+      return;
+    }
+    
+    const lineEl = document.createElement('div');
+    lineEl.className = 'term-line';
+    termContainer.appendChild(lineEl);
+    
+    const text = "> " + lines[currentLine];
+    let i = 0;
+    
+    function typeChar() {
+      if(i < text.length) {
+        lineEl.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeChar, Math.random() * 30 + 15); // Vitesse de frappe hacker
+      } else {
+        currentLine++;
+        setTimeout(typeLine, 300); // Pause entre chaque ligne
+      }
+    }
+    typeChar();
+  }
+  
+  setTimeout(typeLine, 300); // Petit délai au démarrage
+});
+
+/* ══════════════════════════════
    RAVE MODE EASTER EGG
-   → 3 clics rapides sur le logo DJ VOLKA
 ══════════════════════════════ */
 (function(){
   let raveClicks = 0;
@@ -819,7 +883,6 @@ document.addEventListener('keydown', e => {
   let audioCtx;
   let kickInterval;
 
-  /* Overlay */
   const raveOverlay = document.createElement('div');
   raveOverlay.id = 'rave-overlay';
   raveOverlay.innerHTML = `
@@ -828,7 +891,6 @@ document.addEventListener('keydown', e => {
   `;
   document.body.appendChild(raveOverlay);
 
-  /* Synthé kick industriel via Web Audio API */
   function makeDistortionCurve(amount) {
     const n = 44100, curve = new Float32Array(n), k = amount;
     for(let i = 0; i < n; i++){
@@ -861,7 +923,6 @@ document.addEventListener('keydown', e => {
     osc.stop(t + 0.5);
   }
 
-  /* Déclencher sur 3 clics rapides sur le logo */
   document.querySelector('.nav-logo').addEventListener('click', () => {
     if(isRaveOn) return;
     raveClicks++;
@@ -877,13 +938,12 @@ document.addEventListener('keydown', e => {
       if(audioCtx.state === 'suspended') audioCtx.resume();
 
       playIndustrialKick();
-      kickInterval = setInterval(playIndustrialKick, 400); // ~150 BPM
+      kickInterval = setInterval(playIndustrialKick, 400);
     } else {
       raveTimer = setTimeout(() => { raveClicks = 0; }, 900);
     }
   });
 
-  /* Arrêt au clic sur l'overlay */
   raveOverlay.addEventListener('click', () => {
     if(!isRaveOn) return;
     isRaveOn = false;
@@ -892,7 +952,6 @@ document.addEventListener('keydown', e => {
     clearInterval(kickInterval);
   });
 
-  /* Arrêt aussi avec Echap */
   document.addEventListener('keydown', e => {
     if(e.key === 'Escape' && isRaveOn) {
       isRaveOn = false;
