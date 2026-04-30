@@ -165,7 +165,7 @@ section{position:relative;min-height:100vh;padding:120px 5% 80px;
   background:var(--accent);box-shadow:0 0 8px var(--accent);}
 .s-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,100px);
   line-height:1;letter-spacing:.02em;margin-bottom:2.5rem;}
-.s-title span{-webkit-text-stroke:1px rgba(255,255,255,.25);color:transparent;}
+.s-title .stroke{-webkit-text-stroke:1px rgba(255,255,255,.25);color:transparent;}
 
 /* ── BUTTONS ── */
 .btn-primary{display:inline-block;padding:1rem 2.5rem;background:var(--accent);
@@ -505,10 +505,10 @@ body.rave-mode #rave-overlay{display:flex;}
 <section id="home">
   <div class="hero-bg-text">VOLKA</div>
   <div class="section-inner">
-    <div class="hero-tag reveal">Industrial · Raw · Acid · Underground</div>
+    <div class="hero-tag reveal dec">Industrial · Raw · Acid · Underground</div>
     <h1 class="hero-name reveal">
-      <span class="dj">DJ</span>
-      <span class="volka">VOLKA<span class="volka-line"></span></span>
+      <span class="dj dec">DJ</span>
+      <span class="volka"><span class="dec">VOLKA</span><span class="volka-line"></span></span>
     </h1>
     <div class="hero-stats reveal">
       <div class="stat"><span class="stat-num">200+</span><span class="stat-label">Sets joués</span></div>
@@ -532,8 +532,8 @@ body.rave-mode #rave-overlay{display:flex;}
 <!-- 02 MUSIC -->
 <section id="music">
   <div class="section-inner">
-    <div class="s-label reveal">Soundcloud</div>
-    <h2 class="s-title reveal">LATEST <span>SETS</span></h2>
+    <div class="s-label reveal dec">Soundcloud</div>
+    <h2 class="s-title reveal"><span class="dec">LATEST</span> <span class="dec stroke">SETS</span></h2>
     <div class="music-card reveal">
       <div class="music-banner"></div>
       <div style="padding:15px;">
@@ -548,8 +548,8 @@ body.rave-mode #rave-overlay{display:flex;}
 <!-- 02.5 VIDEO -->
 <section id="video">
   <div class="section-inner">
-    <div class="s-label reveal">Live Action</div>
-    <h2 class="s-title reveal">RAW <span>FOOTAGE</span></h2>
+    <div class="s-label reveal dec">Live Action</div>
+    <h2 class="s-title reveal"><span class="dec">RAW</span> <span class="dec stroke">FOOTAGE</span></h2>
     <div class="video-wrap reveal">
       <video autoplay loop muted playsinline preload="metadata">
         <source src="Toro.mp4" type="video/mp4">
@@ -562,8 +562,8 @@ body.rave-mode #rave-overlay{display:flex;}
 <!-- 03 GALLERY -->
 <section id="gallery">
   <div class="section-inner">
-    <div class="s-label reveal">Gallery</div>
-    <h2 class="s-title reveal">VISUAL <span>ARCHIVE</span></h2>
+    <div class="s-label reveal dec">Gallery</div>
+    <h2 class="s-title reveal"><span class="dec">VISUAL</span> <span class="dec stroke">ARCHIVE</span></h2>
     <div class="gallery-grid" id="gal"></div>
   </div>
 </section>
@@ -571,8 +571,8 @@ body.rave-mode #rave-overlay{display:flex;}
 <!-- 04 TOUR -->
 <section id="tour">
   <div class="section-inner">
-    <div class="s-label reveal">Live</div>
-    <h2 class="s-title reveal">TOUR <span>DATES</span></h2>
+    <div class="s-label reveal dec">Live</div>
+    <h2 class="s-title reveal"><span class="dec">TOUR</span> <span class="dec stroke">DATES</span></h2>
     <div class="tour-list">
       <div class="tour-row reveal">
         <span class="t-date">23.05.2026</span>
@@ -601,10 +601,10 @@ body.rave-mode #rave-overlay{display:flex;}
 <!-- 05 PRESS -->
 <section id="press">
   <div class="section-inner">
-    <div class="s-label reveal">Media & Press</div>
-    <h2 class="s-title reveal">IN THE <span>NEWS</span></h2>
+    <div class="s-label reveal dec">Media & Press</div>
+    <h2 class="s-title reveal"><span class="dec">IN THE</span> <span class="dec stroke">NEWS</span></h2>
     <div class="press-card reveal">
-      <span class="p-date">Ouest-France</span>
+      <span class="p-date dec">Ouest-France</span>
       <h3 class="p-head">« Les études restent la priorité » : en Bretagne, ils sont étudiants le jour et DJ la nuit !</h3>
       <p class="p-excerpt">Paul Goasduf alias DJ VOLKA mène une double vie à cent à l'heure. Entre les bancs de l'école et les platines des clubs underground, il prouve qu'avec de la rigueur et de la passion, il est possible de faire vibrer les dancefloors tout en préparant son avenir.</p>
       <a href="https://www.ouest-france.fr/bretagne/lorient-56100/a-lorient-ils-sont-etudiants-le-jour-et-dj-la-nuit-e9294254-d369-11ef-814e-4f00541c262b" target="_blank" class="btn-ghost">Lire l'article complet</a>
@@ -615,7 +615,7 @@ body.rave-mode #rave-overlay{display:flex;}
 <!-- 06 BOOKING -->
 <section id="booking">
   <div class="section-inner">
-    <h2 class="booking-title reveal">BOOKING<br><em>INQUIRIES</em></h2>
+    <h2 class="booking-title reveal"><span class="dec">BOOKING</span><br><em class="dec stroke" style="-webkit-text-stroke:0;">INQUIRIES</em></h2>
     <div class="contact-methods reveal">
       
       <!-- BOUTON EMAIL -->
@@ -723,7 +723,7 @@ document.getElementById('copy-email').addEventListener('click', function(e) {
   e.preventDefault();
   navigator.clipboard?.writeText('djvolka.music@gmail.com');
   const lbl = this.querySelector('.c-label');
-  const originalText = "Copier l'Email"; // Corrigé ici
+  const originalText = "Copier l'Email";
   lbl.textContent = 'COPIÉ !';
   lbl.style.color = 'var(--accent)';
   setTimeout(() => { lbl.textContent = originalText; lbl.style.color = ''; }, 3000);
@@ -906,6 +906,50 @@ window.addEventListener('DOMContentLoaded', () => {
   
   setTimeout(typeLine, 300); 
 });
+
+/* ══════════════════════════════
+   DATA DECRYPT EFFECT
+══════════════════════════════ */
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+const decElements = document.querySelectorAll('.dec');
+
+decElements.forEach(el => {
+  el.dataset.orig = el.textContent.trim();
+});
+
+const decryptObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      if (el.dataset.decrypted) return;
+      el.dataset.decrypted = "true"; // Ne le fait qu'une fois
+      
+      let iteration = 0;
+      const orig = el.dataset.orig;
+      
+      clearInterval(el.decInterval);
+      
+      // Petit délai pour l'effet visuel
+      setTimeout(() => {
+        el.decInterval = setInterval(() => {
+          el.textContent = orig.split("").map((letter, index) => {
+            if (letter === " ") return " ";
+            if (index < iteration) return orig[index];
+            return letters[Math.floor(Math.random() * letters.length)];
+          }).join("");
+          
+          if (iteration >= orig.length) {
+            clearInterval(el.decInterval);
+            el.textContent = orig; // Verrouille le mot exact
+          }
+          iteration += 1 / 3; // Vitesse de décryptage
+        }, 30);
+      }, Math.random() * 200);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+decElements.forEach(el => decryptObs.observe(el));
 
 /* ══════════════════════════════
    RAVE MODE EASTER EGG
