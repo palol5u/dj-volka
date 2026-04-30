@@ -4,7 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#020202">
+
+<!-- ── SEO & OPEN GRAPH (Partage Réseaux Sociaux) ── -->
 <title>DJ VOLKA | Industrial Techno</title>
+<meta name="description" content="Étudiant le jour, démon des platines la nuit. Plongez dans l'univers Industrial, Raw & Acid Techno de DJ VOLKA.">
+<meta property="og:title" content="DJ VOLKA | Industrial Techno">
+<meta property="og:description" content="Étudiant le jour, démon des platines la nuit. Plongez dans l'univers Industrial & Acid Techno.">
+<meta property="og:image" content="https://tonsite.com/photo4.jpg"> <!-- Modifie l'URL quand le site sera en ligne -->
+<meta property="og:url" content="https://www.djvolka.com">
+<meta property="og:type" content="website">
+
+<!-- ── FAVICON LOUP VERT HACKER ── -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23020202'/%3E%3Cpath d='M50 95 L20 50 L20 20 L40 40 L50 25 L60 40 L80 20 L80 50 Z' fill='%23bfff00'/%3E%3Cpolygon points='30,45 45,55 35,60' fill='%23020202'/%3E%3Cpolygon points='70,45 55,55 65,60' fill='%23020202'/%3E%3Cpolygon points='45,85 55,85 50,95' fill='%23020202'/%3E%3C/svg%3E" type="image/svg+xml">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -15,6 +27,14 @@
   --mid:#1a1a1a;--dim:#555;
   --sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px);
 }
+
+/* ── SCROLLBAR HACKER ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; box-shadow: 0 0 10px var(--accent); }
+::-webkit-scrollbar-thumb:hover { background: #fff; }
+* { scrollbar-width: thin; scrollbar-color: var(--accent) var(--black); }
+
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;}
 body{background:var(--black);color:var(--white);font-family:'Barlow Condensed',sans-serif;
@@ -133,7 +153,7 @@ section{position:relative;min-height:100vh;padding:120px 5% 80px;
   animation:gridMove 20s linear infinite;}
 @keyframes gridMove{to{background-position:65px 65px;}}
 
-/* ── REVEAL — seulement pour les éléments NON-galerie ── */
+/* ── REVEAL ── */
 .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.25,.46,.45,.94);}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
@@ -345,7 +365,7 @@ section{position:relative;min-height:100vh;padding:120px 5% 80px;
 .booking-title{font-family:'Bebas Neue',sans-serif;
   font-size:clamp(60px,10vw,180px);line-height:.9;margin-bottom:3rem;}
 .booking-title em{font-style:italic;color:var(--accent);text-shadow:0 0 35px rgba(191,255,0,.4);}
-.contact-methods{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;}
+.contact-methods{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;}
 .contact-method{display:flex;flex-direction:column;align-items:center;
   gap:.8rem;text-decoration:none;padding:1.5rem 2rem;cursor:pointer;}
 .contact-icon{width:80px;height:80px;border:1px solid rgba(255,255,255,.1);
@@ -597,6 +617,8 @@ body.rave-mode #rave-overlay{display:flex;}
   <div class="section-inner">
     <h2 class="booking-title reveal">BOOKING<br><em>INQUIRIES</em></h2>
     <div class="contact-methods reveal">
+      
+      <!-- BOUTON EMAIL -->
       <a href="mailto:djvolka.music@gmail.com" class="contact-method" id="copy-email">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -604,7 +626,17 @@ body.rave-mode #rave-overlay{display:flex;}
         <div class="c-label">Copier l'Email</div>
         <div class="c-val">djvolka.music@gmail.com</div>
       </a>
+
+      <!-- BOUTON INSTAGRAM -->
+      <a href="https://www.instagram.com/dj_volka_/" target="_blank" class="contact-method">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+        </div>
+        <div class="c-label">Instagram</div>
+        <div class="c-val">@dj_volka_</div>
+      </a>
       
+      <!-- BOUTON EPK -->
       <a href="DJ_VOLKA_EPK.pdf" download="DJ_VOLKA_EPK.pdf" class="contact-method">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
@@ -612,6 +644,7 @@ body.rave-mode #rave-overlay{display:flex;}
         <div class="c-label">Télécharger</div>
         <div class="c-val">Press Kit (EPK)</div>
       </a>
+
     </div>
   </div>
 </section>
@@ -690,9 +723,10 @@ document.getElementById('copy-email').addEventListener('click', function(e) {
   e.preventDefault();
   navigator.clipboard?.writeText('djvolka.music@gmail.com');
   const lbl = this.querySelector('.c-label');
+  const originalText = "Copier l'Email"; // Corrigé ici
   lbl.textContent = 'COPIÉ !';
   lbl.style.color = 'var(--accent)';
-  setTimeout(() => { lbl.textContent = 'Copier l\'Email'; lbl.style.color = ''; }, 3000);
+  setTimeout(() => { lbl.textContent = originalText; lbl.style.color = ''; }, 3000);
 });
 
 /* ── PARTICLES ── */
@@ -829,7 +863,7 @@ document.addEventListener('keydown', e => {
    HACKER PRELOADER
 ══════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => {
-  document.body.style.overflow = 'hidden'; // Bloque le scroll pendant le chargement
+  document.body.style.overflow = 'hidden'; 
   
   const lines = [
     "BOOTING VOLKA_OS v2.0...",
@@ -845,7 +879,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if(currentLine >= lines.length) {
       setTimeout(() => {
         document.getElementById('hacker-loader').classList.add('hidden');
-        document.body.style.overflow = ''; // Réactive le scroll
+        document.body.style.overflow = ''; 
       }, 700);
       return;
     }
@@ -861,16 +895,16 @@ window.addEventListener('DOMContentLoaded', () => {
       if(i < text.length) {
         lineEl.textContent += text.charAt(i);
         i++;
-        setTimeout(typeChar, Math.random() * 30 + 15); // Vitesse de frappe hacker
+        setTimeout(typeChar, Math.random() * 30 + 15); 
       } else {
         currentLine++;
-        setTimeout(typeLine, 300); // Pause entre chaque ligne
+        setTimeout(typeLine, 300); 
       }
     }
     typeChar();
   }
   
-  setTimeout(typeLine, 300); // Petit délai au démarrage
+  setTimeout(typeLine, 300); 
 });
 
 /* ══════════════════════════════
@@ -938,7 +972,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if(audioCtx.state === 'suspended') audioCtx.resume();
 
       playIndustrialKick();
-      kickInterval = setInterval(playIndustrialKick, 400);
+      kickInterval = setInterval(playIndustrialKick, 400); 
     } else {
       raveTimer = setTimeout(() => { raveClicks = 0; }, 900);
     }
