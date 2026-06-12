@@ -98,7 +98,7 @@ nav.scrolled{background:rgba(2,2,2,.85);backdrop-filter:blur(15px);
 .nav-links a{font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:.25em;
   text-transform:uppercase;color:var(--dim);text-decoration:none;
   transition:color .3s;position:relative;padding-bottom:4px;cursor:pointer;}
-/* FIX TRIPLE CLIC - Zone réactive élargie */
+/* Zone réactive élargie pour le triple clic */
 .nav-links a::before{content:'';position:absolute;inset:-15px -10px;z-index:-1;}
 
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;
@@ -414,6 +414,8 @@ footer{text-align:center;padding:50px 0;font-family:'Share Tech Mono',monospace;
   .hero-name .volka::before,.hero-name .volka::after{display:none;}
   section{padding:100px 5% 50px;}
   .gallery-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  #vinyl-canvas { width: 300px; height: 300px; }
+  #pacman-canvas { width: 300px; height: 300px; }
 }
 
 /* ── RAVE MODE EASTER EGG ── */
@@ -446,35 +448,69 @@ body.rave-mode #rave-overlay{display:flex;}
   100%{transform:translate(0);}
 }
 
-/* ── VIRUS OVERLAY EASTER EGG ── */
+/* ── VIRUS OVERLAY EASTER EGG (CANVAS 3D VINYLE) ── */
 #virus-overlay {
-  position: fixed; inset: 0; background: rgba(2, 2, 2, 0.99);
+  position: fixed; inset: 0; background: rgba(2, 2, 2, 0.95);
+  z-index: 9999999; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.4s;
+  backdrop-filter: blur(15px);
+}
+#virus-overlay.active { 
+  opacity: 1; visibility: visible; 
+}
+.vinyl-container { 
+  text-align: center; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+#vinyl-canvas {
+  width: 500px;
+  height: 500px;
+  max-width: 90vw;
+  max-height: 90vh;
+  filter: drop-shadow(0 0 30px rgba(0, 240, 255, 0.3)); 
+}
+#virus-text {
+  font-family: 'Share Tech Mono', monospace; font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--white); margin-top: 1rem; height: 2rem; text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+/* ── PAC-MAN OVERLAY ── */
+#pacman-overlay {
+  position: fixed; inset: 0; background: rgba(2, 2, 2, 0.98);
   z-index: 9999999; display: flex; flex-direction: column;
   justify-content: center; align-items: center;
   opacity: 0; visibility: hidden; transition: opacity 0.4s;
   backdrop-filter: blur(12px);
 }
-#virus-overlay.active { 
+#pacman-overlay.active { 
   opacity: 1; visibility: visible; 
 }
-.skull-container { 
+.pacman-container { 
   text-align: center; 
-  max-width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-#skull-svg {
-  width: clamp(200px, 40vw, 500px);
-  height: auto;
-  fill: var(--a2); /* ROUGE FLASH */
-  filter: drop-shadow(0 0 15px rgba(255,0,60,0.9));
-  animation: glitchRave 0.12s infinite; /* Tremblement agressif */
+#pacman-canvas {
+  background: #000;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 25px rgba(191,255,0,0.3);
+  image-rendering: pixelated;
 }
-#virus-text {
-  font-family: 'Share Tech Mono', monospace; font-size: clamp(1rem, 2vw, 1.4rem);
-  color: var(--accent); margin-top: 2.5rem; height: 2rem; text-transform: uppercase;
+#pacman-header {
+  font-family: 'Share Tech Mono', monospace; 
+  font-size: 2rem; 
+  margin-bottom: 1rem;
+}
+#pacman-score {
+  color: var(--accent); 
   text-shadow: 0 0 10px var(--accent);
+}
+#pacman-level {
+  text-shadow: 0 0 10px var(--a3);
 }
 </style>
 </head>
@@ -675,18 +711,22 @@ body.rave-mode #rave-overlay{display:flex;}
 </section>
 
 <div id="virus-overlay">
-  <div class="skull-container">
-    
-    <svg id="skull-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-      <path d="M250,10 C150,10 70,90 70,190 C70,260 100,320 140,350 L140,430 C140,460 160,490 200,490 L300,490 C340,490 360,460 360,430 L360,350 C400,320 430,260 430,190 C430,90 350,10 250,10 Z M170,220 A40,40 0 1,1 170,220.01 Z M330,220 A40,40 0 1,1 330,220.01 Z M220,310 L280,310 L250,360 Z" />
-      <rect x="180" y="420" width="30" height="40" rx="5"/>
-      <rect x="235" y="420" width="30" height="40" rx="5"/>
-      <rect x="290" y="420" width="30" height="40" rx="5"/>
-      <path d="M160,150 L200,170 M340,150 L300,170" stroke-width="8" stroke="var(--black)"/>
-    </svg>
-
+  <div class="vinyl-container">
+    <canvas id="vinyl-canvas" width="500" height="500"></canvas>
     <div id="virus-text"></div>
-    <a id="virus-link" href="https://drive.google.com/drive/folders/1kdc38tzAUMlyPeOc-FwJ65a4kd8b_eHl?usp=drive_link" target="_blank" class="btn-primary" style="display:none; margin-top:20px;">TÉLÉCHARGER LE FICHIER</a>
+    <a id="virus-link" href="https://drive.google.com/drive/folders/1kdc38tzAUMlyPeOc-FwJ65a4kd8b_eHl?usp=drive_link" target="_blank" class="btn-primary" style="display:none; margin-top:20px; background:var(--white); color:#000;">TÉLÉCHARGER LE LOGICIEL</a>
+  </div>
+</div>
+
+<div id="pacman-overlay">
+  <div class="pacman-container">
+    <div id="pacman-header">
+      <span id="pacman-score">SCORE: 0</span> <span style="color:var(--dim);">//</span> <span id="pacman-level" style="color:var(--a3);">LVL: 1</span>
+    </div>
+    <canvas id="pacman-canvas" width="380" height="380"></canvas>
+    <p style="color:var(--dim); font-family:'Share Tech Mono', monospace; margin-top:1rem; letter-spacing:0.1em;">
+      [ FLÈCHES DIRECTIONNELLES POUR JOUER ]
+    </p>
   </div>
 </div>
 
@@ -732,8 +772,8 @@ document.querySelectorAll('.dot, .nav-links a').forEach(el => {
     const target = this.dataset.target;
     if (!target) return;
     
-    // Évite le smooth scroll si c'est le bouton contact car l'easter egg en a besoin
-    if(this.dataset.target === "booking" && this.closest('.nav-links')) return;
+    // Évite le smooth scroll si c'est le bouton contact ou video car l'easter egg en a besoin
+    if((this.dataset.target === "booking" || this.dataset.target === "video") && this.closest('.nav-links')) return;
     
     e.preventDefault();
     document.getElementById(target)?.scrollIntoView({ behavior:'smooth' });
@@ -1084,9 +1124,110 @@ decElements.forEach(el => decryptObs.observe(el));
 })();
 
 /* ══════════════════════════════
-   VIRUS EASTER EGG (CONTACT)
+   MOTEUR 3D VIRUS (FAUX 3D CODE - VINYLE TECHNO)
 ══════════════════════════════ */
-// Cible spécifique pour le triple clic dans le menu principal
+const vinylCanvas = document.getElementById('vinyl-canvas');
+const ctx = vinylCanvas?.getContext('2d');
+let vinylAnimId = null;
+
+let spinAngle = 0; 
+const tiltAngle = 1.1; 
+
+function generateVinylPoints() {
+  const pts = [];
+  const chars = "01VOKL@#$%&─━│┃";
+  
+  for (let i = 0; i < 600; i++) {
+    let r = 15 + Math.random() * 30; 
+    let theta = Math.random() * Math.PI * 2;
+    let x = Math.cos(theta) * r;
+    let z = Math.sin(theta) * r;
+    let y = (Math.random() - 0.5) * 1.5; 
+    pts.push({x: x, y: y, z: z, type: 'label', char: chars[Math.floor(Math.random() * chars.length)]});
+  }
+
+  for (let r = 45; r < 160; r += 2.5) { 
+    let circumference = 2 * Math.PI * r;
+    let numPoints = Math.floor(circumference / 3); 
+    
+    let isTrack = (r % 10 < 6); 
+    
+    if (isTrack) {
+      for (let i = 0; i < numPoints; i++) {
+        let theta = (i / numPoints) * Math.PI * 2;
+        let x = Math.cos(theta) * r;
+        let z = Math.sin(theta) * r;
+        let y = (Math.random() - 0.5) * 2;
+        let char = Math.random() > 0.3 ? '-' : chars[Math.floor(Math.random() * chars.length)];
+        pts.push({x: x, y: y, z: z, type: 'groove', char: char});
+      }
+    }
+  }
+  return pts;
+}
+
+const vinylPoints3D = generateVinylPoints();
+
+function renderVinyl() {
+  ctx.fillStyle = 'rgba(2, 2, 2, 0.25)';
+  ctx.fillRect(0, 0, vinylCanvas.width, vinylCanvas.height);
+  
+  spinAngle -= 0.04; 
+  
+  const cosSpin = Math.cos(spinAngle);
+  const sinSpin = Math.sin(spinAngle);
+  const cosTilt = Math.cos(tiltAngle);
+  const sinTilt = Math.sin(tiltAngle);
+  
+  const cx = vinylCanvas.width / 2;
+  const cy = vinylCanvas.height / 2;
+  
+  ctx.font = 'bold 11px "Share Tech Mono", monospace';
+  ctx.textAlign = 'center';
+  
+  for (let i = 0; i < vinylPoints3D.length; i++) {
+    let p = vinylPoints3D[i];
+    
+    let rx = p.x * cosSpin - p.z * sinSpin;
+    let rz = p.x * sinSpin + p.z * cosSpin;
+    let ry = p.y;
+    
+    let finalY = ry * cosTilt - rz * sinTilt;
+    let finalZ = ry * sinTilt + rz * cosTilt;
+    
+    let fov = 400;
+    if (finalZ < -fov) continue; 
+    
+    let scale = fov / (fov + finalZ);
+    let px = cx + rx * scale;
+    let py = cy + finalY * scale;
+    
+    let alpha = Math.max(0.05, Math.min(1, (200 - finalZ) / 300));
+    
+    if (p.type === 'label') {
+      ctx.fillStyle = `rgba(255, 0, 60, ${alpha * 1.2})`;
+    } else {
+      let angleToLight = Math.abs(Math.atan2(rz, rx));
+      let isReflecting = (angleToLight < 0.3 || Math.abs(angleToLight - Math.PI) < 0.3);
+      
+      if (isReflecting) {
+        ctx.fillStyle = `rgba(0, 240, 255, ${alpha * 1.5})`; 
+      } else if (Math.random() > 0.99) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`; 
+      } else {
+        ctx.fillStyle = `rgba(191, 255, 0, ${alpha * 0.4})`; 
+      }
+    }
+    
+    ctx.fillText(p.char, px, py);
+  }
+  
+  vinylAnimId = requestAnimationFrame(renderVinyl);
+}
+
+/* ══════════════════════════════
+   LOGIQUE DU BOUTON CONTACT VIRUS (VINYLE)
+══════════════════════════════ */
 const contactBtnMenu = document.querySelector('.nav-links a[data-target="booking"]');
 const virusOverlay = document.getElementById('virus-overlay');
 const virusText = document.getElementById('virus-text');
@@ -1097,15 +1238,14 @@ let virusTimer;
 
 if(contactBtnMenu){
   contactBtnMenu.addEventListener('click', (e) => {
-    // Si l'overlay est déjà actif, on ne fait rien
     if(virusOverlay.classList.contains('active')) return;
 
     virusClicks++;
     clearTimeout(virusTimer);
 
     if(virusClicks >= 3) {
-      e.preventDefault(); // Bloque le scroll
-      e.stopPropagation(); // Évite les conflits
+      e.preventDefault(); 
+      e.stopPropagation(); 
       virusClicks = 0;
       
       virusOverlay.classList.add('active');
@@ -1114,7 +1254,9 @@ if(contactBtnMenu){
       virusText.textContent = "";
       virusLink.style.display = "none";
       
-      const msg = "Bravo, vous avez trouvé le fichier caché...";
+      if(!vinylAnimId && vinylCanvas) renderVinyl();
+      
+      const msg = "Félicitations, vous avez déverrouillé l'accès à VOLKA_TOOLKIT...";
       let i = 0;
       function typeWriter() {
         if (i < msg.length) {
@@ -1126,17 +1268,251 @@ if(contactBtnMenu){
         }
       }
       
-      setTimeout(typeWriter, 1200); // Laisse glitcher un peu avant d'écrire
+      setTimeout(typeWriter, 1200); 
     } else {
       virusTimer = setTimeout(() => { virusClicks = 0; }, 600); 
     }
   });
 }
 
-virusOverlay.addEventListener('click', (e) => {
-  if(e.target === virusOverlay) {
-    virusOverlay.classList.remove('active');
+if (virusOverlay) {
+  virusOverlay.addEventListener('click', (e) => {
+    if(e.target === virusOverlay) {
+      virusOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+      
+      if(vinylAnimId) {
+          cancelAnimationFrame(vinylAnimId);
+          vinylAnimId = null;
+      }
+    }
+  });
+}
+
+/* ══════════════════════════════
+   PAC-MAN EASTER EGG (VIDEO) - V2.0 (Fantômes Doliprane)
+══════════════════════════════ */
+const videoBtnMenu = document.querySelector('.nav-links a[data-target="video"]');
+const pacOverlay = document.getElementById('pacman-overlay');
+const pacCanvas = document.getElementById('pacman-canvas');
+const pacCtx = pacCanvas?.getContext('2d');
+const pacScoreEl = document.getElementById('pacman-score');
+const pacLevelEl = document.getElementById('pacman-level');
+
+let pacClicks = 0;
+let pacTimer2;
+let pacGameLoop;
+
+const initialMap = [
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1],
+  [1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,0,1],
+  [1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1],
+  [1,1,1,1,0,1,1,1,2,1,2,1,1,1,0,1,1,1,1],
+  [2,2,2,1,0,1,2,2,2,2,2,2,2,1,0,1,2,2,2],
+  [1,1,1,1,0,1,2,1,1,2,1,1,2,1,0,1,1,1,1],
+  [2,2,2,2,0,2,2,1,2,2,2,1,2,2,0,2,2,2,2],
+  [1,1,1,1,0,1,2,1,1,1,1,1,2,1,0,1,1,1,1],
+  [2,2,2,1,0,1,2,2,2,2,2,2,2,1,0,1,2,2,2],
+  [1,1,1,1,0,1,2,1,1,1,1,1,2,1,0,1,1,1,1],
+  [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1],
+  [1,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,0,1],
+  [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+  [1,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,1],
+  [1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+];
+
+let map = [];
+let pacman = { x: 9, y: 15, vx: 0, vy: 0, nextVx: 0, nextVy: 0 };
+let ghosts = [];
+let score = 0;
+let level = 1;
+const TILE = 20;
+const GHOST_COLORS = ['var(--a2)', 'var(--a3)', '#ffb8ff', '#ffb852', '#ffffff'];
+
+function initGame() {
+  score = 0;
+  level = 1;
+  startLevel();
+}
+
+function startLevel() {
+  map = initialMap.map(row => [...row]); 
+  pacman = { x: 9, y: 15, vx: 0, vy: 0, nextVx: 0, nextVy: 0 };
+  
+  ghosts = [];
+  for(let i=0; i<level; i++) {
+    ghosts.push({ 
+      x: 9, 
+      y: 7, 
+      vx: i % 2 === 0 ? 1 : -1, 
+      vy: 0, 
+      color: GHOST_COLORS[i % GHOST_COLORS.length] 
+    });
+  }
+
+  pacScoreEl.textContent = `SCORE: ${score}`;
+  pacLevelEl.textContent = `LVL: ${level}`;
+  
+  clearInterval(pacGameLoop);
+  let speed = Math.max(70, 150 - (level * 15));
+  pacGameLoop = setInterval(pacLoop, speed);
+}
+
+function updatePacman() {
+  if (map[pacman.y + pacman.nextVy][pacman.x + pacman.nextVx] !== 1) {
+    pacman.vx = pacman.nextVx;
+    pacman.vy = pacman.nextVy;
+  }
+  
+  if (map[pacman.y + pacman.vy][pacman.x + pacman.vx] !== 1) {
+    pacman.x += pacman.vx;
+    pacman.y += pacman.vy;
+  }
+  
+  if (pacman.x < 0) pacman.x = 18;
+  if (pacman.x > 18) pacman.x = 0;
+
+  if (map[pacman.y][pacman.x] === 0) {
+    map[pacman.y][pacman.x] = 2;
+    score += 10;
+    pacScoreEl.textContent = `SCORE: ${score}`;
+    
+    if (score >= level * 1300) {
+      level++;
+      startLevel();
+      return; 
+    }
+  }
+
+  ghosts.forEach(g => {
+    const dirs = [{x:1,y:0}, {x:-1,y:0}, {x:0,y:1}, {x:0,y:-1}];
+    const valid = dirs.filter(d => map[g.y + d.y][g.x + d.x] !== 1);
+    const noReverse = valid.filter(d => d.x !== -g.vx || d.y !== -g.vy);
+    const choices = noReverse.length > 0 ? noReverse : valid;
+    
+    if(choices.length > 0) {
+      const pick = choices[Math.floor(Math.random() * choices.length)];
+      g.vx = pick.x;
+      g.vy = pick.y;
+    }
+    
+    g.x += g.vx;
+    g.y += g.vy;
+    
+    if (g.x < 0) g.x = 18;
+    if (g.x > 18) g.x = 0;
+
+    if (pacman.x === g.x && pacman.y === g.y) {
+      alert(`GAME OVER ! Score Final: ${score} (Niveau ${level})`);
+      initGame();
+    }
+  });
+}
+
+function drawPacman() {
+  pacCtx.fillStyle = "black";
+  pacCtx.fillRect(0, 0, 380, 380);
+
+  for (let y = 0; y < 19; y++) {
+    for (let x = 0; x < 19; x++) {
+      if (map[y][x] === 1) {
+        pacCtx.fillStyle = "rgba(0, 240, 255, 0.4)"; 
+        pacCtx.fillRect(x * TILE, y * TILE, TILE, TILE);
+      } else if (map[y][x] === 0) {
+        pacCtx.fillStyle = "#fff"; 
+        pacCtx.beginPath();
+        pacCtx.arc(x * TILE + 10, y * TILE + 10, 3, 0, Math.PI * 2);
+        pacCtx.fill();
+      }
+    }
+  }
+
+  ghosts.forEach(g => {
+    const xPos = g.x * TILE + 1; 
+    const yPos = g.y * TILE + 5; 
+    const w = 18; 
+    const h = 10; 
+    const r = 5;  
+
+    pacCtx.fillStyle = g.color;
+    
+    pacCtx.beginPath();
+    pacCtx.moveTo(xPos + r, yPos);
+    pacCtx.lineTo(xPos + w - r, yPos);
+    pacCtx.quadraticCurveTo(xPos + w, yPos, xPos + w, yPos + r);
+    pacCtx.lineTo(xPos + w, yPos + h - r);
+    pacCtx.quadraticCurveTo(xPos + w, yPos + h, xPos + w - r, yPos + h);
+    pacCtx.lineTo(xPos + r, yPos + h);
+    pacCtx.quadraticCurveTo(xPos, yPos + h, xPos, yPos + h - r);
+    pacCtx.lineTo(xPos, yPos + r);
+    pacCtx.quadraticCurveTo(xPos, yPos, xPos + r, yPos);
+    pacCtx.closePath();
+    pacCtx.fill();
+
+    pacCtx.beginPath();
+    pacCtx.moveTo(xPos + w / 2, yPos + 1); 
+    pacCtx.lineTo(xPos + w / 2, yPos + h - 1); 
+    pacCtx.strokeStyle = "rgba(0,0,0,0.4)"; 
+    pacCtx.lineWidth = 1.5;
+    pacCtx.stroke();
+  });
+
+  let mouthOffset = Math.sin(Date.now() / 150) * 0.5 + 0.5; 
+  let angle = Math.atan2(pacman.vy, pacman.vx);
+  
+  pacCtx.fillStyle = "var(--accent)";
+  pacCtx.beginPath();
+  pacCtx.arc(pacman.x * TILE + 10, pacman.y * TILE + 10, 8, angle + mouthOffset, angle + Math.PI * 2 - mouthOffset);
+  pacCtx.lineTo(pacman.x * TILE + 10, pacman.y * TILE + 10);
+  pacCtx.fill();
+}
+
+function pacLoop() {
+  updatePacman();
+  drawPacman();
+}
+
+window.addEventListener("keydown", (e) => {
+  if (!pacOverlay.classList.contains('active')) return;
+  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) e.preventDefault(); 
+  
+  if (e.key === "ArrowUp") { pacman.nextVx = 0; pacman.nextVy = -1; }
+  if (e.key === "ArrowDown") { pacman.nextVx = 0; pacman.nextVy = 1; }
+  if (e.key === "ArrowLeft") { pacman.nextVx = -1; pacman.nextVy = 0; }
+  if (e.key === "ArrowRight") { pacman.nextVx = 1; pacman.nextVy = 0; }
+});
+
+if(videoBtnMenu){
+  videoBtnMenu.addEventListener('click', (e) => {
+    if(pacOverlay.classList.contains('active')) return;
+
+    pacClicks++;
+    clearTimeout(pacTimer2);
+
+    if(pacClicks >= 3) {
+      e.preventDefault(); 
+      e.stopPropagation(); 
+      pacClicks = 0;
+      
+      pacOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; 
+      
+      initGame(); 
+    } else {
+      pacTimer2 = setTimeout(() => { pacClicks = 0; }, 600); 
+    }
+  });
+}
+
+pacOverlay.addEventListener('click', (e) => {
+  if(e.target === pacOverlay) {
+    pacOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    clearInterval(pacGameLoop);
   }
 });
 </script>
