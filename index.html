@@ -5,16 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#020202">
 
-<!-- ── SEO & OPEN GRAPH (Partage Réseaux Sociaux) ── -->
 <title>DJ VOLKA | Industrial Techno</title>
 <meta name="description" content="Étudiant le jour, démon des platines la nuit. Plongez dans l'univers Industrial, Raw & Acid Techno de DJ VOLKA.">
 <meta property="og:title" content="DJ VOLKA | Industrial Techno">
 <meta property="og:description" content="Étudiant le jour, démon des platines la nuit. Plongez dans l'univers Industrial & Acid Techno.">
-<meta property="og:image" content="https://tonsite.com/photo4.jpg"> <!-- Modifie l'URL quand le site sera en ligne -->
-<meta property="og:url" content="https://www.djvolka.com">
+<meta property="og:image" content="https://tonsite.com/photo4.jpg"> <meta property="og:url" content="https://www.djvolka.com">
 <meta property="og:type" content="website">
 
-<!-- ── FAVICON LOUP VERT HACKER ── -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23020202'/%3E%3Cpath d='M50 95 L20 50 L20 20 L40 40 L50 25 L60 40 L80 20 L80 50 Z' fill='%23bfff00'/%3E%3Cpolygon points='30,45 45,55 35,60' fill='%23020202'/%3E%3Cpolygon points='70,45 55,55 65,60' fill='%23020202'/%3E%3Cpolygon points='45,85 55,85 50,95' fill='%23020202'/%3E%3C/svg%3E" type="image/svg+xml">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,8 +98,11 @@ nav.scrolled{background:rgba(2,2,2,.85);backdrop-filter:blur(15px);
 .nav-links a{font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:.25em;
   text-transform:uppercase;color:var(--dim);text-decoration:none;
   transition:color .3s;position:relative;padding-bottom:4px;cursor:pointer;}
+/* FIX TRIPLE CLIC - Zone réactive élargie */
+.nav-links a::before{content:'';position:absolute;inset:-15px -10px;z-index:-1;}
+
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;
-  background:var(--accent);transition:width .4s cubic-bezier(.86,0,.07,1);}
+  background:var(--accent);transition:width .4s cubic-bezier(.86,0,.07,1);z-index:1;}
 .nav-links a:hover,.nav-links a.active-link{color:var(--white);text-shadow:0 0 8px rgba(255,255,255,.5);}
 .nav-links a:hover::after,.nav-links a.active-link::after{width:100%;box-shadow:0 0 8px var(--accent);}
 
@@ -445,11 +445,41 @@ body.rave-mode #rave-overlay{display:flex;}
   75%{transform:translate(-10px,10px);}
   100%{transform:translate(0);}
 }
+
+/* ── VIRUS OVERLAY EASTER EGG ── */
+#virus-overlay {
+  position: fixed; inset: 0; background: rgba(2, 2, 2, 0.99);
+  z-index: 9999999; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.4s;
+  backdrop-filter: blur(12px);
+}
+#virus-overlay.active { 
+  opacity: 1; visibility: visible; 
+}
+.skull-container { 
+  text-align: center; 
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#skull-svg {
+  width: clamp(200px, 40vw, 500px);
+  height: auto;
+  fill: var(--a2); /* ROUGE FLASH */
+  filter: drop-shadow(0 0 15px rgba(255,0,60,0.9));
+  animation: glitchRave 0.12s infinite; /* Tremblement agressif */
+}
+#virus-text {
+  font-family: 'Share Tech Mono', monospace; font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--accent); margin-top: 2.5rem; height: 2rem; text-transform: uppercase;
+  text-shadow: 0 0 10px var(--accent);
+}
 </style>
 </head>
 <body>
 
-<!-- ── ECRAN DE CHARGEMENT HACKER ── -->
 <div id="hacker-loader">
   <div id="term-container"></div>
   <div class="term-cursor"></div>
@@ -501,7 +531,6 @@ body.rave-mode #rave-overlay{display:flex;}
   </button>
 </nav>
 
-<!-- 01 HOME -->
 <section id="home">
   <div class="hero-bg-text">VOLKA</div>
   <div class="section-inner">
@@ -529,7 +558,6 @@ body.rave-mode #rave-overlay{display:flex;}
   </div>
 </section>
 
-<!-- 02 MUSIC -->
 <section id="music">
   <div class="section-inner">
     <div class="s-label reveal dec">Soundcloud</div>
@@ -545,7 +573,6 @@ body.rave-mode #rave-overlay{display:flex;}
   </div>
 </section>
 
-<!-- 02.5 VIDEO -->
 <section id="video">
   <div class="section-inner">
     <div class="s-label reveal dec">Live Action</div>
@@ -559,7 +586,6 @@ body.rave-mode #rave-overlay{display:flex;}
   </div>
 </section>
 
-<!-- 03 GALLERY -->
 <section id="gallery">
   <div class="section-inner">
     <div class="s-label reveal dec">Gallery</div>
@@ -568,7 +594,6 @@ body.rave-mode #rave-overlay{display:flex;}
   </div>
 </section>
 
-<!-- 04 TOUR -->
 <section id="tour">
   <div class="section-inner">
     <div class="s-label reveal dec">Live</div>
@@ -594,11 +619,15 @@ body.rave-mode #rave-overlay{display:flex;}
         <div class="t-info"><span class="t-venue">VANNES</span><span class="t-city">Vannes, FR</span></div>
         <a href="#" class="btn-primary" style="padding:.7rem 1.6rem;font-size:.75rem;">Tickets</a>
       </div>
+      <div class="tour-row reveal" style="transition-delay:.28s">
+        <span class="t-date">30.10.2026</span>
+        <div class="t-info"><span class="t-venue">PALAIS DES CONGRÈS</span><span class="t-city">Lorient, FR</span></div>
+        <a href="#" class="btn-primary" style="padding:.7rem 1.6rem;font-size:.75rem;">Tickets</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 05 PRESS -->
 <section id="press">
   <div class="section-inner">
     <div class="s-label reveal dec">Media & Press</div>
@@ -612,13 +641,11 @@ body.rave-mode #rave-overlay{display:flex;}
   </div>
 </section>
 
-<!-- 06 BOOKING -->
 <section id="booking">
   <div class="section-inner">
     <h2 class="booking-title reveal"><span class="dec">BOOKING</span><br><em class="dec stroke" style="-webkit-text-stroke:0;">INQUIRIES</em></h2>
     <div class="contact-methods reveal">
       
-      <!-- BOUTON EMAIL -->
       <a href="mailto:djvolka.music@gmail.com" class="contact-method" id="copy-email">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -627,7 +654,6 @@ body.rave-mode #rave-overlay{display:flex;}
         <div class="c-val">djvolka.music@gmail.com</div>
       </a>
 
-      <!-- BOUTON INSTAGRAM -->
       <a href="https://www.instagram.com/dj_volka_/" target="_blank" class="contact-method">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
@@ -636,7 +662,6 @@ body.rave-mode #rave-overlay{display:flex;}
         <div class="c-val">@dj_volka_</div>
       </a>
       
-      <!-- BOUTON EPK -->
       <a href="DJ_VOLKA_EPK.pdf" download="DJ_VOLKA_EPK.pdf" class="contact-method">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
@@ -649,9 +674,24 @@ body.rave-mode #rave-overlay{display:flex;}
   </div>
 </section>
 
+<div id="virus-overlay">
+  <div class="skull-container">
+    
+    <svg id="skull-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <path d="M250,10 C150,10 70,90 70,190 C70,260 100,320 140,350 L140,430 C140,460 160,490 200,490 L300,490 C340,490 360,460 360,430 L360,350 C400,320 430,260 430,190 C430,90 350,10 250,10 Z M170,220 A40,40 0 1,1 170,220.01 Z M330,220 A40,40 0 1,1 330,220.01 Z M220,310 L280,310 L250,360 Z" />
+      <rect x="180" y="420" width="30" height="40" rx="5"/>
+      <rect x="235" y="420" width="30" height="40" rx="5"/>
+      <rect x="290" y="420" width="30" height="40" rx="5"/>
+      <path d="M160,150 L200,170 M340,150 L300,170" stroke-width="8" stroke="var(--black)"/>
+    </svg>
+
+    <div id="virus-text"></div>
+    <a id="virus-link" href="https://drive.google.com/drive/folders/1kdc38tzAUMlyPeOc-FwJ65a4kd8b_eHl?usp=drive_link" target="_blank" class="btn-primary" style="display:none; margin-top:20px;">TÉLÉCHARGER LE FICHIER</a>
+  </div>
+</div>
+
 <footer>© 2026 <span style="color:var(--accent)">DJ VOLKA</span> // INDUSTRIAL TECHNO</footer>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lb">
   <span class="lb-close" id="lbClose">[ ESC / FERMER ]</span>
   <span class="lb-nav lb-prev" id="lbPrev">&#8592;</span>
@@ -691,6 +731,10 @@ document.querySelectorAll('.dot, .nav-links a').forEach(el => {
   el.addEventListener('click', function(e) {
     const target = this.dataset.target;
     if (!target) return;
+    
+    // Évite le smooth scroll si c'est le bouton contact car l'easter egg en a besoin
+    if(this.dataset.target === "booking" && this.closest('.nav-links')) return;
+    
     e.preventDefault();
     document.getElementById(target)?.scrollIntoView({ behavior:'smooth' });
   });
@@ -922,14 +966,13 @@ const decryptObs = new IntersectionObserver((entries) => {
     if (e.isIntersecting) {
       const el = e.target;
       if (el.dataset.decrypted) return;
-      el.dataset.decrypted = "true"; // Ne le fait qu'une fois
+      el.dataset.decrypted = "true"; 
       
       let iteration = 0;
       const orig = el.dataset.orig;
       
       clearInterval(el.decInterval);
       
-      // Petit délai pour l'effet visuel
       setTimeout(() => {
         el.decInterval = setInterval(() => {
           el.textContent = orig.split("").map((letter, index) => {
@@ -940,9 +983,9 @@ const decryptObs = new IntersectionObserver((entries) => {
           
           if (iteration >= orig.length) {
             clearInterval(el.decInterval);
-            el.textContent = orig; // Verrouille le mot exact
+            el.textContent = orig; 
           }
-          iteration += 1 / 3; // Vitesse de décryptage
+          iteration += 1 / 3; 
         }, 30);
       }, Math.random() * 200);
     }
@@ -1039,6 +1082,63 @@ decElements.forEach(el => decryptObs.observe(el));
     }
   });
 })();
+
+/* ══════════════════════════════
+   VIRUS EASTER EGG (CONTACT)
+══════════════════════════════ */
+// Cible spécifique pour le triple clic dans le menu principal
+const contactBtnMenu = document.querySelector('.nav-links a[data-target="booking"]');
+const virusOverlay = document.getElementById('virus-overlay');
+const virusText = document.getElementById('virus-text');
+const virusLink = document.getElementById('virus-link');
+
+let virusClicks = 0;
+let virusTimer;
+
+if(contactBtnMenu){
+  contactBtnMenu.addEventListener('click', (e) => {
+    // Si l'overlay est déjà actif, on ne fait rien
+    if(virusOverlay.classList.contains('active')) return;
+
+    virusClicks++;
+    clearTimeout(virusTimer);
+
+    if(virusClicks >= 3) {
+      e.preventDefault(); // Bloque le scroll
+      e.stopPropagation(); // Évite les conflits
+      virusClicks = 0;
+      
+      virusOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; 
+      
+      virusText.textContent = "";
+      virusLink.style.display = "none";
+      
+      const msg = "Bravo, vous avez trouvé le fichier caché...";
+      let i = 0;
+      function typeWriter() {
+        if (i < msg.length) {
+          virusText.textContent += msg.charAt(i);
+          i++;
+          setTimeout(typeWriter, 50); 
+        } else {
+          setTimeout(() => { virusLink.style.display = "inline-block"; }, 500);
+        }
+      }
+      
+      setTimeout(typeWriter, 1200); // Laisse glitcher un peu avant d'écrire
+    } else {
+      virusTimer = setTimeout(() => { virusClicks = 0; }, 600); 
+    }
+  });
+}
+
+virusOverlay.addEventListener('click', (e) => {
+  if(e.target === virusOverlay) {
+    virusOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
 </script>
 </body>
 </html>
